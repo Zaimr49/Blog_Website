@@ -1,0 +1,39 @@
+<h1 class="display-1 text-center">Blog Website</h1>
+
+<div class="mb-3 mt-3 border border-success p-3">
+<h5 class="display-5">Add a Blog</h5>
+<form action="/addblog" method="post">
+        <div class="form-group">
+          <label for="exampleInputBlogName1">Blog Name</label>
+          <input type="text" class="form-control" id="exampleInputBlogName1" aria-describedby="emailHelp" placeholder="Enter User Name" name="blogname">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputBlogAuthor">Blog Author Name</label>
+          <input type="text" class="form-control" id="exampleInputBlogAuthor" aria-describedby="emailHelp" placeholder="Enter Author Name" name="blogauthor">
+        </div>
+        
+        <div class="form-group">
+          <label for="exampleInputBlogContent1">Blog Content</label>
+          <input type="text" class="form-control" id="exampleInputBlogContent1" aria-describedby="emailHelp" placeholder="Enter Blog Content" name="blogcontent">
+        </div>
+        
+       
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    {{#each blogs}}
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{this.blogname}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">By {{this.blogauthor}}</h6>
+            <p class="card-text">{{this.blogcontent}}</p>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>
