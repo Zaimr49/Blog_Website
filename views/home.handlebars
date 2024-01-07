@@ -52,9 +52,17 @@
             <h6 class="card-subtitle mb-2 text-muted">By
               {{this.blogauthor}}</h6>
             <p class="card-text">{{this.blogcontent}}</p>
+            <div class="comments">
+              <h3>Comments:</h3>
+              {{#each this.comments}}
+                <div class="comment">
+                  <p>{{this.commenterName}}: {{this.content}}</p>
+                </div>
+              {{/each}}
+            </div>
 
             <div class="border border-danger p-3">
-              <form action="/addblog" method="post">
+              <form action="/addcomment" method="post">
                 <div class="form-group">
                   <label for="exampleInputCommentorName1">Commenter Name</label>
                   <input

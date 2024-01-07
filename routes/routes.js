@@ -10,6 +10,7 @@ const usermodel = require("../models/usermodel");
 const blogmodel = require("../models/blogmodel");
 const app = express();
 const path = require("path");
+const commentmodel = require("../models/commentmodel");
 
 var jsonParser = bodyParser.json();
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
@@ -28,6 +29,7 @@ routes.get("/home", (req, res) => {
   // res.render("home");
   blogmodel
     .find({})
+    .populate('comments')
     .then((blogs) => {
       res.render("home", { blogs: blogs });
     })
@@ -35,10 +37,6 @@ routes.get("/home", (req, res) => {
       res.status(500).send("Error retrieving blogs: " + err);
     });
 });
-
-
-
-
 
 
 
@@ -65,7 +63,6 @@ routes.post("/saveuser", urlencodedParser, (req, res) => {
   res.redirect("/home");
 });
 
-
 // Check or Validate User / Sign In
 routes.post("/checkuser", urlencodedParser, (req, res) => {
   usermodel
@@ -84,8 +81,7 @@ routes.post("/checkuser", urlencodedParser, (req, res) => {
     });
 });
 
-
-// Save Blog Post 
+// Save Blog Post
 routes.post("/addblog", urlencodedParser, (req, res) => {
   // Create a new blog post using the request body data
   const newBlogPost = new blogmodel({
@@ -98,7 +94,7 @@ routes.post("/addblog", urlencodedParser, (req, res) => {
   newBlogPost
     .save()
     .then((data) => {
-      console.log(data)
+      console.log(data);
       console.log("Blog Post Saved Successfully");
       res.redirect("/home"); // Redirect to the home page after saving
     })
@@ -108,5 +104,26 @@ routes.post("/addblog", urlencodedParser, (req, res) => {
     });
 });
 
+// Save Comment
+routes.post("/addcomment", urlencodedParser, (req, res) => {
+  const newComment = new commentmodel(req.body);
+  newComment
+    .save()
+    .then((data) => {
+      console.log(data);
+      console.log("Comment Saved Successfully");
+      res.redirect("/home"); // Redirect to the home page after saving
+    })
+    .catch((error) => {
+      console.error("Error Saving Comment:", error);
+      res.status(500).send("Error saving comment");
+    });
+});
+
+// //Get Comment according to the ID
+// routes.post("/getComment", urlencodedParser,(req,res)=>{
+//   commentmodel.find(req.body).then().c
+
+// })
 
 module.exports = routes;

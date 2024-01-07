@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const blogmodel = require("../models/blogmodel");
-
 
 const commentSchema = new mongoose.Schema({
     commenterName: {
@@ -13,7 +11,7 @@ const commentSchema = new mongoose.Schema({
     },
     blog: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: blogmodel,
+        ref: 'blog',
         required: true
     }
 });
