@@ -31,6 +31,7 @@ routes.get("/home", (req, res) => {
     .find({})
     .populate('comments')
     .then((blogs) => {
+      console.log(blogs);
       res.render("home", { blogs: blogs });
     })
     .catch((err) => {
@@ -105,20 +106,43 @@ routes.post("/addblog", urlencodedParser, (req, res) => {
 });
 
 // Save Comment
+// routes.post("/addcomment", urlencodedParser, (req, res) => {
+//   const newComment = new commentmodel(req.body);
+//   newComment
+//     .save()
+//     .then((data) => {
+//       console.log(data);
+//       console.log("Comment Saved Successfully");
+//       res.redirect("/home"); // Redirect to the home page after saving
+//     })
+//     .catch((error) => {
+//       console.error("Error Saving Comment:", error);
+//       res.status(500).send("Error saving comment");
+//     });
+// });
+// Save Comment
 routes.post("/addcomment", urlencodedParser, (req, res) => {
+  let savedComment;
   const newComment = new commentmodel(req.body);
+
   newComment
     .save()
     .then((data) => {
-      console.log(data);
+      savedComment = data;
       console.log("Comment Saved Successfully");
-      res.redirect("/home"); // Redirect to the home page after saving
+      // Now, find the blog and push the comment's ID to the blog's comments array
+      return blogmodel.findByIdAndUpdate(req.body.blog, { $push: { comments: savedComment._id } }, { new: true });
+    })
+    .then(() => {
+      // After pushing the comment, redirect to the home page
+      res.redirect("/home");
     })
     .catch((error) => {
       console.error("Error Saving Comment:", error);
       res.status(500).send("Error saving comment");
     });
 });
+
 
 // //Get Comment according to the ID
 // routes.post("/getComment", urlencodedParser,(req,res)=>{

@@ -6,7 +6,7 @@ const blogschema = new mongoose.Schema({
     blogcontent:String,
     comments: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'blogcomment'
+        ref: 'blogcomment' //as in mongoose.model in the commentmodel.js file
       }],
 });
 
