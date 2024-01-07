@@ -3,7 +3,7 @@ const blogmodel = require("../models/blogmodel");
 
 
 const commentSchema = new mongoose.Schema({
-    authorName: {
+    commenterName: {
         type: String,
         required: true
     },
